@@ -1,3 +1,5 @@
+package com.blackjack.model;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +39,7 @@ public enum Cards {
         return String.format(%s of %s, this.value, this.suit;
     }
 
-    // label out Suit and Cards value
+    // label out Suit and com.blackjack.model.Cards value
 
     enum Suit {
         SPADES, DIAMONDS, HEARTS, CLUBS,
