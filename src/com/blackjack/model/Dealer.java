@@ -5,37 +5,50 @@ import java.util.Scanner;
 public class Dealer {
     // Attributes
     private int wins;
-    private boolean playerBlackjack;
-    private Deck deck = new Deck();
+    //private boolean;
+    //private Deck deck = new Deck();
 
     // methods
     public void deal(){
         //add first two cards to player and dealer
-        playerCards.add(getNextCard()); // off the top of list
-        dealerCards.add(getNextCard());
-        playerCards.add(getNextCard());
-        dealerCards.add(getNextCard());
+     //   playerCards.add(key value pair); // off the top of list
+      //  playerCards.add(key value pair);
+     //   dealerCards.add(same);
+      //  dealerCards.add(same);
+     //   if(Ace in dealerCards or playerCards) {
+     //       blackjackCheck();
+     //   }
+      //  hitOrStand();
     }
+
+//        Scanner initial = new Scanner(System.in);
+//        System.out.println("Question that asks hit or stand, plus the split");
+//        String answer = initial.nextLine();
 
     public void blackjackCheck(){
-        // check for dealer blackjack
-        if (dealerCards.getValue(card[1]) + 2nd card == 21) {
-            if (playerCards.getValue()+2nd card == 21) {
-                tie();
-            }
-            else {
-                dealerWin();
-            }
-        }
-        else if (playerCards.getValue()+2nd card == 21) {
-            player.setBlackjack(true);
-            playerWin();
-        }
+//        // check for dealer blackjack
+//        if (dealerCards.getValue(card[1]) + 2nd card == 21) {
+//            if (playerCards.getValue()+2nd card == 21) {
+//                tie();
+//            }
+//            else {
+//                dealerWin();
+//            }
+//        }
+//        else if (playerCards.getValue()+2nd card == 21) {
+//            player.setBlackjack(true);
+//            playerWin();
+//        }
     }
 
-    public Card getNextCard() {
-        Card newCard = deck.(remove from top)
-        return Card;
+    public void givePlayerCard() {
+     //   playerCards.add(next off deck);
+      //  checkCardTotal();
+    }
+
+    public void giveDealerCard() {
+     //   playerCards.add(next off deck);
+     //   checkCardTotal();
     }
 
 //    public void flipCard() {
@@ -46,26 +59,26 @@ public class Dealer {
 
     public void tie() {
         System.out.println("PUSH");
-        player.setChipValue(player.getChipValue() + table.getPlayersCurrentBet);
+     //   player.setChipValue(player.getChipValue() + table.getPlayersCurrentBet);
         endOfRound();
     }
 
     public void playerWin() {
         System.out.println("You win");
-        if (player.isBlackjack) {
-            player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*3));
-        }
-        else {
-            player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*2));
-        }
-        player.setBlackjack(false);
-        player.setWins(getPlayerWins() + 1);
-        endOfRound();
+      //  if (player.isBlackjack) {
+       //     player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*3));
+     //   }
+      //  else {
+      //      player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*2));
+    //    }
+    //    player.setBlackjack(false);
+     //   player.setWins(getPlayerWins() + 1);
+     //   endOfRound();
     }
 
     public void dealerWin() {
         System.out.println("dealer win");
-        dealer.setWins(getDealerWins() + 1);
+      //  dealer.setWins(getDealerWins() + 1);
         endOfRound();
     }
 

@@ -1,15 +1,13 @@
 package com.blackjack.model;
 
-import com.blackjack.model.Dealer;
-
 import java.util.Map;
 import java.util.Set;
 
 class Table {
     private static final int BLACKJACK = 21;
     private static final int MINIMUM_BET = 5;
-   // private Player player;
-    private Dealer dealer;
+  //  private Player player;
+  //  private Dealer dealer;
     private int playerScore;
     private int dealerScore;
     private int potentialEarnings;
@@ -19,7 +17,7 @@ class Table {
     private int roundCounter;//keep track of all the turns passed since game started
 
     /**
-     * com.blackjack.model.Table has its own direct player & dealer to grab & update values from
+     * Table has its own direct player & dealer to grab & update values from
      * Maybe a playFactory/Dealer Factory can be used in Main to create them & pass them in
      */
 //    public Table(Player player, Dealer dealer) {
@@ -98,7 +96,7 @@ class Table {
     //Empty currentActiveCards List
     public void clearActiveCards() {
       //  playerCards.clear();
-     //   dealerCards.clear();
+      //  dealerCards.clear();
     };
 
     public void clearPotentialEarnings() {
@@ -198,10 +196,10 @@ class Table {
         return potentialEarnings;
     }
 
-//    public Set<Cards> getPlayerCards() {
+   // public Set<Cards> getPlayerCards() {
 //        return this.playerCards;
 //    }
-
+//
 //    public Set<Cards> getDealerCards() {
 //        return this.dealerCards;
 //    }

@@ -1,63 +1,96 @@
 package com.blackjack.app;
 
-import com.apps.util.Prompter;
+//import com.apps.util.Prompter;
 import com.blackjack.model.Dealer;
-import com.blackjack.model.Table;
+//import com.blackjack.model.Table;
 
 import java.util.Scanner;
 
 public class Game {
-    Prompter prompter = new Prompter(new Scanner(System.in));
-    private Deck deck;
-    private Player player;
+    //  Prompter prompter = new Prompter(new Scanner(System.in));
+    // private Player player;
     private Dealer dealer;
-    private Table table;
+   // private Table table;
 
     public void initialize() {
-        deck = new Deck();
-        String playerName = prompter.prompt("Please enter your name: ");
-        player = new Player(playerName);
+        //  String playerName = prompter.prompt("Please enter your name: ");
+        //   player = new Player(playerName);
         dealer = new Dealer();
-        Table = new Table();
+        //  table = new Table(player, dealer);
+        start();
     }
 
     public void start() {
-        //game logic
-        dealer.deal();
-        if (dealerHand.contains(ACE CARD) || playerHand.contains(ACE CARD)) {
-            dealer.blackjackCheck();
-        }
+        //  String playerResponse = prompter.prompt("Play or not?: ");
 
-    }
+        //  if(playerResponse == YES) {
+        //    String playerBet = prompter.prompt("Place bet: ");
+        // int convertedBet = Integer.parseInt(playerBet);
 
-    public void tie() {
-        System.out.println("PUSH");
-        player.setChipValue(player.getChipValue() + table.getPlayersCurrentBet);
-        endOfRound();
+        /**
+         *What all the method should do:
+         *  - check if placedBet is between= MINIMUM_BET(5) - Player.chipValue(how much the player has);
+         *  - set value of player.Bet = their placedBet
+         *  - subtracts from player chipValue whatever their bet was
+         *
+         *
+         * */
+        //player.placeBet();
+       // table.dealInitialHands();
     }
+    //CHECKFOR BLACKJACK
+    //HIT OR STAND
 
-    public void playerWin() {
-        System.out.println("YOU WIN");
-        if (player.isBlackjack) {
-            player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*3));
-        }
-        else {
-            player.setChipValue(player.getChipValue() + (table.getPlayersCurrentBet*2));
-        }
-        player.setBlackjack(false);
-        player.setWins(getPlayerWins() + 1);
-        endOfRound();
-    }
+    //HIT
 
-    public void dealerWin() {
-        System.out.println("DEALER WINS");
-        dealer.setWins(getDealerWins() + 1);
-        endOfRound();
-    }
+    //  if(playerResponse == NO) {
+    //player.leaveGame() ????
+    //
+    //  }
 
-    private void endOfRound() {
-        // clear or reset appropriate variables
-        // prompt for redeal, or end game
-        String redeal = prompter.prompt("Continue?");
-    }
+    //PLAYER DEALER BLACKJACK
+    // if (Table.dealerHand.contains(ACE CARD) || Table.Player.playerHand.contains(ACE CARD)) {
+    //System.out.println(dealerCards, playerhands);
+    //    table.blackjackCheck();
+    // }
+
+    //String playerAnswer = promptPlayerHitStand();
+    //if(playerAnswer == HIT) {
+    // addToPlayerCards()
+    //
+    //
+    // }
+
+    //}
+
+    // public string promptPlayerHitStand() {
+    String result  = "";
+    //   System.out.println("Hit or Stand?");
+    // String playerResponse = prompter.prompt("Hit or Stand?");
+    //  result = playerResponse;
+    //getPlayerCards();
+    //getDealerCards();
+
+    //  return result;
+
 }
+
+// Table.playerWinsRound();
+//  MethodToContinue() {
+//     promptPlayer();
+
+// }
+
+// private void endOfGAME() {
+// clear or reset appropriate variables
+// prompt for redeal, or end game
+//    String redeal = prompter.prompt("Continue?");
+//  }
+
+
+// while(!gameOver) {
+
+//  }
+
+
+//}
