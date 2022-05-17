@@ -5,11 +5,12 @@ import java.util.Map;
 public enum Cards {
 
 
-    private static Object value;
-    private final Value value;
-    private final Suit suit;
+    private int value;
+    private String suit;
 
     private final static Map<String, Cards> CARD_CACHE = initCache();
+    {
+    }
 
     private static Map<String,Cards> initCache() {
 
