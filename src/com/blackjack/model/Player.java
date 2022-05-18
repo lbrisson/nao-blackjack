@@ -16,13 +16,16 @@ public class Player {
     }
 
     // business methods
-    public void placeBet() {
-        setChipValue(getChipValue()- currentBet);
+    public void placeBet(int playerBet) {
+        this.currentBet = playerBet;
+        updatePlayerChipValue();
+    }
+
+    private void updatePlayerChipValue() {
+        this.chipValue = this.chipValue - this.currentBet;
     }
 
     // accessor methods
-
-
     public String getName() {
         return name;
     }
@@ -35,16 +38,9 @@ public class Player {
         return chipValue;
     }
 
-    public void setChipValue(int chipValue) {
-        this.chipValue = chipValue;
-    }
 
     public int getCurrentBet() {
         return currentBet;
-    }
-
-    public void setCurrentBet(int currentBet) {
-        this.currentBet = currentBet;
     }
 
     public int getWins() {
@@ -52,15 +48,7 @@ public class Player {
     }
 
     public void setWins(int wins) {
-        this.wins = wins;
-    }
-
-    public int getBet() {
-        return bet;
-    }
-
-    public void setBet(int bet) {
-        this.bet = bet;
+        this.wins = this.wins + wins;
     }
 
     public boolean isBlackjack() {
