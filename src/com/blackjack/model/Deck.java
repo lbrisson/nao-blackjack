@@ -12,7 +12,7 @@ public class Deck {
     public void createDeck() {
         Cards cards[] = Cards.values();
         int counter = 1;
-        while(counter < 4) {
+        while(counter <= 4) {
 
             for(Cards card : cards) {
                 deck.add(card);
@@ -23,7 +23,7 @@ public class Deck {
     }
 
     public void shuffleDeck() {
-        Collections.shuffle((List<?>) deck, new Random(3));
+        Collections.shuffle(deck);
         System.out.println(deck);
     }
 
