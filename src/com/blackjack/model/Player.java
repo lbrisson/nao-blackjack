@@ -17,12 +17,8 @@ public class Player {
 
     // business methods
     public void placeBet(int playerBet) {
-        this.currentBet = playerBet;
-        updatePlayerChipValue();
-    }
-
-    private void updatePlayerChipValue() {
-        this.chipValue = this.chipValue - this.currentBet;
+        currentBet = playerBet;
+        setChipValue(getChipValue() - playerBet);
     }
 
     // accessor methods
@@ -38,6 +34,9 @@ public class Player {
         return chipValue;
     }
 
+    public void setChipValue(int chipValue) {
+        this.chipValue = chipValue;
+    }
 
     public int getCurrentBet() {
         return currentBet;

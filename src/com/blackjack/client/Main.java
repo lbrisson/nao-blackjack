@@ -13,7 +13,7 @@ import com.apps.util.SplashApp;
 class Main implements SplashApp {
     public static void main(String[] args) {
         BlackjackApp app = new BlackjackApp();
-        app.start();
+        app.initialize();
     }
 
     @Override

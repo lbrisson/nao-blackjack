@@ -20,35 +20,31 @@ public class BlackjackApp {
     private Player player;
     private Dealer dealer;
     private static final int MINIMUM_BET = 5;
-    Table table;
+    private Table table;
 
-
-    public void start() {
+    public void initialize() {
         welcome();
-//        showTable();
-
-        //prompt user to enter name
         String playerName = promptForPlayerName();
         player = new Player(playerName);
         dealer = new Dealer();
-        dealer.getDeck();
         table = new Table(player, dealer);
-
         //prompt player to see if they want to play BlackJack
         promptForPlayBlackJackOrNot();
+        start();
+    }
 
-
+    public void start() {
+//        showTable();
         while (!gameOver) {
             table.increaseRoundCounter();
-            //promptForBetAmount();
+            dealer.getDeck();
 
-            player.placeBet(player.getCurrentBet());
+            promptForBetAmount();
 
+            table.setPotentialEarnings();
             table.dealInitialHands();
 
-            // TODO: SHOW HAND HERE
-
-            table.blackjackCheck();
+            blackjackCheck();
 
             // At this point blackjackCheck() has been done so neither hands are 21 or busted.
             // this phase only deals with the playerHand (hit or stand)
@@ -57,8 +53,10 @@ public class BlackjackApp {
             // if hit, add one card to playerHand and getHandValue,
             //      if >21 call playerLosesHand(), if less restart phase.
             // if stand, it goes to the next phase.
-
             promptForHitOrStand();
+            if (gameOver) {
+                break;
+            }
 
             // Next phase is dealing with the dealerHand
             // this part is automatic, we don't need prompts
@@ -69,11 +67,13 @@ public class BlackjackApp {
             // it should update the scoreboard as it is receiving cards
             while (table.checkDealerHandValue() < 17) {
                 table.addToDealerCards();
+                System.out.println(table.getDealerCards());
             }
 
             if (table.checkDealerHandValue() > 21) {
                 System.out.println("DEALER BUST");
                 table.playerWinsRound();
+                promptForEndGameOrContinue();
             }
 
             // Next phase is for comparing dealer and player hand int values
@@ -82,17 +82,16 @@ public class BlackjackApp {
             //      else, playerLosesHand() since it is the only option left.
             if (table.checkPlayerHandValue() == table.checkDealerHandValue()){
                 table.playerTied();
+                promptForEndGameOrContinue();
             }
             else if(table.checkPlayerHandValue() > table.checkDealerHandValue()) {
                 table.playerWinsRound();
+                promptForEndGameOrContinue();
             }
             else {
                 table.playerLosesRound();
+                promptForEndGameOrContinue();
             }
-
-            //prompt player to endGame or Continue playing
-            System.out.println();
-            promptForEndGameOrContinue();
         }
 
     }
@@ -106,15 +105,17 @@ public class BlackjackApp {
 
 
     private void showNoGamesPlayedResults() {
-        System.out.println();
+        System.out.println("HAVE A GOOD DAY WITHOUT BLACKJACK");
+
     }
 
     private void promptForPlayBlackJackOrNot() {
-        String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game");
+        String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game: ");
         if(redealOrEndGame.trim().toLowerCase().equals("y")) {
             System.out.println("let's continue");
         }
         else if(redealOrEndGame.trim().toLowerCase().equals("n")) {
+            gameOver = true;
             showNoGamesPlayedResults();
         }
         else {
@@ -126,27 +127,50 @@ public class BlackjackApp {
 
     private void promptForBetAmount() {
         int chips = player.getChipValue();
-        String bet = prompter.prompt("How much would you like to bet? Please choose a number between 5 and " + chips);
-        int convertedBet = Integer.parseInt(bet);
+        String bet = prompter.prompt("How much would you like to bet? Please choose a number between 5 and " + chips + ": ");
+        int convertedBet = Integer.parseInt(bet.trim());
         if (convertedBet < 5 || convertedBet > chips) {
             System.out.println("ERROR: you did not enter a number in the valid range 5 to " + chips);
             promptForBetAmount();
         }
-        System.out.println("You have bet: " + convertedBet + " chip(s)");
-        player.placeBet(convertedBet);
+        else {
+            System.out.println("You have bet: " + convertedBet + " chip(s)");
+            player.placeBet(convertedBet);
+        }
+    }
+
+    private void blackjackCheck() {
+        // check for dealer blackjack
+        if (table.checkDealerHandValue() == 21) {
+            if (table.checkPlayerHandValue() == 21) {
+                table.playerTied();
+            } else {
+                table.playerLosesRound();
+            }
+            promptForEndGameOrContinue();
+        } else if (table.checkPlayerHandValue() == 21) {
+            player.setBlackjack(true);
+            table.setPotentialEarnings();
+            table.playerWinsRound();
+            promptForEndGameOrContinue();
+        }
+
     }
 
 
     private void promptForHitOrStand() {
         System.out.println(table.getPlayerCards());
-        String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND");
+        String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND: ");
         if (hitOrStand.trim().toLowerCase().equals("h")) {
             table.playerHits();
             if (table.checkPlayerHandValue() > 21 ) {
                 System.out.println("PLAYER BUST");
                 table.playerLosesRound();
+                promptForEndGameOrContinue();
             }
-            promptForHitOrStand();
+            else {
+                promptForHitOrStand();
+            }
         }
         else if (hitOrStand.trim().toLowerCase().equals("s")){
             System.out.println("continuing to dealer");
@@ -162,18 +186,20 @@ public class BlackjackApp {
         //prompt for redeal, or end game
         table.clearActiveCards();
         table.clearPotentialEarnings();
-         String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game");
+        String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game: ");
         if (redealOrEndGame.trim().toLowerCase().equals("n")) {
-            gameOver = true;
+            setGameOver(true);
             showEndOfGameResults();
         }
         else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
             System.out.println("Let's start the next hand!");
+            start();
         }
         else {
             System.out.println("ERROR: please enter a valid response");
             promptForEndGameOrContinue();
         }
+        System.out.println("BYE");
     }
 
 
@@ -195,4 +221,14 @@ public class BlackjackApp {
         System.out.println("\n");
     }
 
+    //ACCESSOR METHODS
+
+
+    public Boolean getGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(Boolean gameOver) {
+        this.gameOver = gameOver;
+    }
 }
