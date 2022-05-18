@@ -218,11 +218,13 @@ public class Table {
     public void addToPlayerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.playerCards.add(newCard);
+        System.out.println(getPlayerCards());
     }
 
     public void addToDealerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.dealerCards.add(newCard);
+        System.out.println(getDealerCards());
     }
 
     public void increaseRoundCounter() {
