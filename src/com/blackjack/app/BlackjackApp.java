@@ -1,6 +1,6 @@
 package com.blackjack.app;
 
-//import com.apps.util.Prompter;
+import com.apps.util.Prompter;
 import com.blackjack.model.Dealer;
 import com.blackjack.model.Deck;
 import com.blackjack.model.Player;
@@ -15,30 +15,27 @@ import java.util.Scanner;
  * ALL PROMPTS SHOULD COME FROM HERE
  */
 public class BlackjackApp {
-   // Prompter prompter = new Prompter(new Scanner(System.in));
+    Prompter prompter = new Prompter(new Scanner(System.in));
     Boolean gameOver = false;
     private Player player;
     private Dealer dealer;
     private static final int MINIMUM_BET = 5;
     Table table;
 
-//    private final Scanner scanner = new Scanner(System.in);
 
-
-   // @Override
     public void start() {
-//        welcome();
+        welcome();
 //        showTable();
 
         //prompt user to enter name
-     //   String playerName = promptForPlayerName();
-       // player = new Player(playerName);
+        String playerName = promptForPlayerName();
+        player = new Player(playerName);
         dealer = new Dealer();
         dealer.getDeck();
         table = new Table(player, dealer);
 
         //prompt player to see if they want to play BlackJack
-       // promptForPlayBlackJackOrNot();
+        promptForPlayBlackJackOrNot();
 
 
         while (!gameOver) {
@@ -60,19 +57,8 @@ public class BlackjackApp {
             // if hit, add one card to playerHand and getHandValue,
             //      if >21 call playerLosesHand(), if less restart phase.
             // if stand, it goes to the next phase.
-            while (table.checkPlayerHandValue() < 21 ) {
-              //  promptForHitOrStand();
 
-                //player hit
-                //playerValue under 21
-                //need prompt to move forward if player picks stand
-
-                if (table.checkPlayerHandValue() > 21 ) {
-                    System.out.println("PLAYER BUST");
-                    table.playerLosesRound();
-                }
-            }
-
+            promptForHitOrStand();
 
             // Next phase is dealing with the dealerHand
             // this part is automatic, we don't need prompts
@@ -106,99 +92,107 @@ public class BlackjackApp {
 
             //prompt player to endGame or Continue playing
             System.out.println();
-         //   promptForEndGameOrContinue();
+            promptForEndGameOrContinue();
         }
 
     }
 
 
-//    private String promptForPlayerName() {
-//      //  String playerName = prompter.prompt("Please enter your name: ");
-//     //   System.out.println("Your name is: " + playerName);
-//     //   return playerName;
-//    }
+    private String promptForPlayerName() {
+        String playerName = prompter.prompt("Please enter your name: ");
+        System.out.println("Your name is: " + playerName);
+        return playerName;
+    }
 
 
     private void showNoGamesPlayedResults() {
         System.out.println();
     }
 
-  //  private void promptForPlayBlackJackOrNot() {
-//    //    String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game");
-//        if(redealOrEndGame.equals("Y")) {
-//            System.out.println("let's continue");
-//        }
-//        else if(redealOrEndGame.equals("N")) {
-//            showNoGamesPlayedResults();
-//        }
-//        else {
-//            System.out.println("ERROR: Not a valid answer.");
-//            promptForPlayBlackJackOrNot();
-//        }
-//    }
+    private void promptForPlayBlackJackOrNot() {
+        String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game");
+        if(redealOrEndGame.trim().toLowerCase().equals("y")) {
+            System.out.println("let's continue");
+        }
+        else if(redealOrEndGame.trim().toLowerCase().equals("n")) {
+            showNoGamesPlayedResults();
+        }
+        else {
+            System.out.println("ERROR: Not a valid answer.");
+            promptForPlayBlackJackOrNot();
+        }
+    }
 
 
-//    private void promptForBetAmount() {
-//        int chips = player.getChipValue();
-//        String bet = prompter.prompt("How much would you like to bet? Please choose a number between 5 and " + chips);
-//        int convertedBet = Integer.parseInt(bet);
-//        if (convertedBet < 5 || convertedBet > chips) {
-//            System.out.println("ERROR: you did not enter a number in the valid range 5 to " + chips);
-//            promptForBetAmount();
-//        }
-//        System.out.println("You have bet: " + convertedBet + " chip(s)");
-//        player.placeBet(convertedBet);
-//    }
+    private void promptForBetAmount() {
+        int chips = player.getChipValue();
+        String bet = prompter.prompt("How much would you like to bet? Please choose a number between 5 and " + chips);
+        int convertedBet = Integer.parseInt(bet);
+        if (convertedBet < 5 || convertedBet > chips) {
+            System.out.println("ERROR: you did not enter a number in the valid range 5 to " + chips);
+            promptForBetAmount();
+        }
+        System.out.println("You have bet: " + convertedBet + " chip(s)");
+        player.placeBet(convertedBet);
+    }
 
 
-//    private void promptForHitOrStand() {
-//        String hitOrStand = prompter.prompt("Enter [h]it to HIT or [s]tand to STAND");
-//        if (hitOrStand.equals("h")) {
-//            table.playerHits();
-//        }
-//        else if (hitOrStand.equals("s")){
-//            table.playerStands();
-//        }
-//        else {
-//            System.out.println("ERROR: Please enter a valid response.");
-//            promptForHitOrStand();
-//        }
-//    }
+    private void promptForHitOrStand() {
+        System.out.println(table.getPlayerCards());
+        String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND");
+        if (hitOrStand.trim().toLowerCase().equals("h")) {
+            table.playerHits();
+            if (table.checkPlayerHandValue() > 21 ) {
+                System.out.println("PLAYER BUST");
+                table.playerLosesRound();
+            }
+            promptForHitOrStand();
+        }
+        else if (hitOrStand.trim().toLowerCase().equals("s")){
+            System.out.println("continuing to dealer");
+        }
+        else {
+            System.out.println("ERROR: Please enter a valid response.");
+            promptForHitOrStand();
+        }
+    }
 
-//    private void promptForEndGameOrContinue() {
-//        //clear or reset appropriate variables
-//        //prompt for redeal, or end game
-//        table.clearActiveCards();
-//        table.clearPotentialEarnings();
-//         String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game");
-//        if (redealOrEndGame.equals("n")) {
-//            gameOver = true;
-//            showEndOfGameResults();
-//        }
-//        else if (redealOrEndGame.equals("y")) {
-//            System.out.println("Let's start the next hand!");
-//        }
-//        else {
-//            System.out.println("ERROR: please enter a valid response");
-//            promptForEndGameOrContinue();
-//        }
-//    }
+    private void promptForEndGameOrContinue() {
+        //clear or reset appropriate variables
+        //prompt for redeal, or end game
+        table.clearActiveCards();
+        table.clearPotentialEarnings();
+         String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game");
+        if (redealOrEndGame.trim().toLowerCase().equals("n")) {
+            gameOver = true;
+            showEndOfGameResults();
+        }
+        else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
+            System.out.println("Let's start the next hand!");
+        }
+        else {
+            System.out.println("ERROR: please enter a valid response");
+            promptForEndGameOrContinue();
+        }
+    }
 
 
-//    private void showEndOfGameResults() {
-//    }
-//
-//    private void showTable() {
-//        TableView view = new TableView(table.getScoreboard());
-//        view.render();
-//    }
-//
-//    //Maybe Make different Shows that are more specific
-//
-//    private void welcome() {
-//        System.out.println("\n");
-//        System.out.println("Welcome to Black Jack!");
-//        System.out.println("\n");
-//    }
+    private void showEndOfGameResults() {
+        System.out.println("END OF GAME RESULTS HERE");
+    }
 
-//}
+
+    private void showTable() {
+        TableView view = new TableView(table.getScoreboard());
+        view.render();
+    }
+
+    //Maybe Make different Shows that are more specific
+
+    private void welcome() {
+        System.out.println("\n");
+        System.out.println("Welcome to Black Jack!");
+        System.out.println("\n");
+    }
+
+}
