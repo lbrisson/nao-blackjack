@@ -75,7 +75,9 @@ public class BlackjackApp {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
-
+            if (gameOver) {
+                break;
+            }
             // Next phase is for comparing dealer and player hand int values
             //      if playerHandValue==DealerHandValue, tie() ending method called
             //      if else playerHandValue>DealerHandValue, playerWinsHand() ending
