@@ -3,10 +3,10 @@ package com.blackjack.model;
 import java.util.*;
 
 public class Deck {
-    Random rnd = new Random();
-    private final Collection<Cards> deck = new ArrayList<>();
+    private final List<Cards> deck = new ArrayList<>();
+//
 
-    Deck() {
+    public Deck() {
     }
 
     public void createDeck() {
@@ -25,5 +25,9 @@ public class Deck {
     public void shuffleDeck() {
         Collections.shuffle((List<?>) deck, new Random(3));
         System.out.println(deck);
+    }
+
+    public List<Cards> getDeck() {
+        return deck;
     }
 }
