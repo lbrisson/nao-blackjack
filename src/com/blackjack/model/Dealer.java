@@ -9,37 +9,7 @@ public class Dealer {
     //private Deck deck = new Deck();
 
     // methods
-    public void deal(){
-        //add first two cards to player and dealer
-     //   playerCards.add(key value pair); // off the top of list
-      //  playerCards.add(key value pair);
-     //   dealerCards.add(same);
-      //  dealerCards.add(same);
-     //   if(Ace in dealerCards or playerCards) {
-     //       blackjackCheck();
-     //   }
-      //  hitOrStand();
-    }
 
-//        Scanner initial = new Scanner(System.in);
-//        System.out.println("Question that asks hit or stand, plus the split");
-//        String answer = initial.nextLine();
-
-    public void blackjackCheck(){
-//        // check for dealer blackjack
-//        if (dealerCards.getValue(card[1]) + 2nd card == 21) {
-//            if (playerCards.getValue()+2nd card == 21) {
-//                tie();
-//            }
-//            else {
-//                dealerWin();
-//            }
-//        }
-//        else if (playerCards.getValue()+2nd card == 21) {
-//            player.setBlackjack(true);
-//            playerWin();
-//        }
-    }
 
     public void givePlayerCard() {
      //   playerCards.add(next off deck);

@@ -9,6 +9,7 @@ import java.util.Scanner;
 //import com.apps.util.SplashApp;
 
 
+
 /*
  *This is a the Controller.
  * It orchestrates the overall flow of the application.
@@ -79,6 +80,12 @@ public class BlackjackApp {
     }
 
 //    private String promptForPlayerName() {
+=======
+//class BlackjackApp implements SplashApp {
+//    public static void main(String[] args) {
+//        Game blackjack = new Game();
+//        blackjack.welcome();
+//        blackjack.start();
 //    }
 
     private void showNoGamesPlayedResults() {
@@ -117,3 +124,9 @@ public class BlackjackApp {
 //    }
 
 }
+=======
+//    public void welcome() {
+//        //show welcome graphic and give prompt for asking to play
+//    }
+//}
+
