@@ -11,15 +11,7 @@ public class Dealer {
     // methods
 
 
-    public void givePlayerCard() {
-     //   playerCards.add(next off deck);
-      //  checkCardTotal();
-    }
-
-    public void giveDealerCard() {
-     //   playerCards.add(next off deck);
-     //   checkCardTotal();
-    }
+    public void get
 
 //    public void flipCard() {
 //        //Dealer flips the card
