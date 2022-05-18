@@ -1,26 +1,32 @@
 package com.blackjack.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
-class Table {
+public class Table {
     private static final int BLACKJACK = 21;
     private static final int MINIMUM_BET = 5;
-  //  private Player player;
-  //  private Dealer dealer;
+    //private Player player;
+    private Dealer dealer;
     private int playerScore;
     private int dealerScore;
     private int potentialEarnings;
-    private Map<String, Integer> scoreboard;
-   // private Set<Cards> playerCards;
-  //  private Set<Cards> dealerCards;
+    private Map<String, Integer> scoreboard = new TreeMap<>();//empty
+    private Set<Cards> playerCards;
+    private Set<Cards> dealerCards;
     private int roundCounter;//keep track of all the turns passed since game started
 
     /**
      * Table has its own direct player & dealer to grab & update values from
      * Maybe a playFactory/Dealer Factory can be used in Main to create them & pass them in
      */
-//    public Table(Player player, Dealer dealer) {
+
+    public Table() {
+
+    }
+//    //public Table(Player player, Dealer dealer) {
 //        this.player = player;
 //        this.dealer = dealer;
 //    }
@@ -48,6 +54,22 @@ class Table {
         int dealerTotalCardValue = checkDealerHandValue();//Return int of what the value of dealer hand is
 
         compareActiveHands(playerTotalCardValue, dealerTotalCardValue);
+    }
+
+    public void blackjackCheck(){
+        // check for dealer blackjack
+        if (checkDealerHandValue() == BLACKJACK) {
+            if (checkPlayerHandValue() == BLACKJACK) {
+          //      tie();
+            }
+            else {
+            //    dealerWin();
+            }
+        }
+        else if (checkPlayerHandValue() == BLACKJACK) {
+           // player.setBlackjack(true);
+          //  playerWin();
+       }
     }
 
     /**
@@ -196,15 +218,15 @@ class Table {
         return potentialEarnings;
     }
 
-   // public Set<Cards> getPlayerCards() {
-//        return this.playerCards;
-//    }
-//
-//    public Set<Cards> getDealerCards() {
-//        return this.dealerCards;
-//    }
+    public Set<Cards> getPlayerCards() {
+        return (Set<Cards>) List.copyOf(playerCards);
+    }
 
-    public Map<String, Integer> getScoreboard() {
-        return scoreboard;
+    public Set<Cards> getDealerCards() {
+        return (Set<Cards>) List.copyOf(dealerCards);
+    }
+
+    public List<Integer> getScoreboard() {
+        return List.copyOf(scoreboard.values());
     }
 }

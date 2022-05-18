@@ -3,8 +3,11 @@ package com.blackjack.app;
 //import com.apps.util.Prompter;
 import com.blackjack.model.Dealer;
 //import com.blackjack.model.Table;
-
 import java.util.Scanner;
+
+/*
+This is a lookup table fo student IDs to namers
+ */
 
 public class Game {
     //  Prompter prompter = new Prompter(new Scanner(System.in));
@@ -38,7 +41,7 @@ public class Game {
         //player.placeBet();
        // table.dealInitialHands();
     }
-    //CHECKFOR BLACKJACK
+    //CHECK FOR BLACKJACK
     //HIT OR STAND
 
     //HIT
