@@ -46,23 +46,38 @@ public class Game {
 
     //HIT
 
-    //  if(playerResponse == NO) {
-    //player.leaveGame() ????
-    //
-    //  }
+//      if(playerResponse == NO) {
+//    player.leaveGame() ????
+//
+//      }
 
-    //PLAYER DEALER BLACKJACK
-    // if (Table.dealerHand.contains(ACE CARD) || Table.Player.playerHand.contains(ACE CARD)) {
-    //System.out.println(dealerCards, playerhands);
-    //    table.blackjackCheck();
-    // }
+//    PLAYER DEALER BLACKJACK
+//     if (Table.dealerHand.contains(ACE CARD) || Table.Player.playerHand.contains(ACE CARD)) {
+//    System.out.println(dealerCards, playerhands);
+//        table.blackjackCheck();
+//     }
 
-    //String playerAnswer = promptPlayerHitStand();
-    //if(playerAnswer == HIT) {
-    // addToPlayerCards()
-    //
-    //
-    // }
+    // At this point blackjackCheck() has been done so neither hands are 21 or busted.
+    // this phase only deals with the playerHand (hit or stand)
+    // prompt player to hit or stand, since the first two cards will never result in bust, you can always ask hit or stand here
+    // if else for player response, hit or stand.
+    // if hit, add one card to playerHand and getHandValue,
+    //      if >21 call playerLosesHand(), if less restart phase.
+    // if stand, it goes to the next phase.
+
+    // Next phase is dealing with the dealerHand
+    // this part is automatic, we don't need prompts
+    // Three outcomes:
+    //      dealerHandValue is <17, add card to dealerHand and restart phase
+    //      dealerHandValue is >=17 && <=21, go to next phase: comparing dealer and player hands.
+    //      dealerHandValue is >21, dealer bust go to playerWinsHand().
+
+    // Next phase is for comparing dealer and player hand int values
+    //      if playerHandValue==DealerHandValue, tie() ending method called
+    //      if else playerHandValue>DealerHandValue, playerWinsHand() ending
+    //      else, playerLosesHand() since it is the only option left.
+
+    // At this point we shouldn't need anything, because our endOfRound, should prompt and call game.start()
 
     //}
 
