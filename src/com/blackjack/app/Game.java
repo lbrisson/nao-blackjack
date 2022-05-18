@@ -35,8 +35,6 @@ public class Game {
          *  - check if placedBet is between= MINIMUM_BET(5) - Player.chipValue(how much the player has);
          *  - set value of player.Bet = their placedBet
          *  - subtracts from player chipValue whatever their bet was
-         *
-         *
          * */
         //player.placeBet();
        // table.dealInitialHands();
