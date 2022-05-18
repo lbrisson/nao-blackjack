@@ -11,8 +11,8 @@ public class Table {
     private int dealerScore;
     private int potentialEarnings;
     private Map<String, Integer> scoreboard = new TreeMap<>();//empty
-    private Set<Cards> playerCards;
-    private Set<Cards> dealerCards;
+    private List<Cards> playerCards;
+    private List<Cards> dealerCards;
     private int roundCounter;//keep track of all the turns passed since game started
 
     /**
@@ -52,13 +52,8 @@ public class Table {
         return totalCardScore;
     }
 
-    public void playerStands() {
-        addToPlayerCards();
-    }
-
     public void playerHits() {
-        Cards newCard = dealer.getNextCardFromDeck();
-        addToDealerCards();
+        addToPlayerCards();
     }
 
     /**
@@ -70,20 +65,6 @@ public class Table {
         int dealerTotalCardValue = checkDealerHandValue();//Return int of what the value of dealer hand is
 
         compareActiveHands(playerTotalCardValue, dealerTotalCardValue);
-    }
-
-    public void blackjackCheck() {
-        // check for dealer blackjack
-        if (checkDealerHandValue() == BLACKJACK) {
-            if (checkPlayerHandValue() == BLACKJACK) {
-                playerTied();
-            } else {
-                dealer.playerLoses();
-            }
-        } else if (checkPlayerHandValue() == BLACKJACK) {
-            player.setBlackjack(true);
-            dealer.playerWins();
-        }
     }
 
     private void updateScoreBoard() {
@@ -145,10 +126,7 @@ public class Table {
     }
 
     public void playerTied() {
-        playerScore += 1;
-        dealerScore += 1;
         updateScoreBoard();
-        increasePlayerChipValue();
         dealer.playerTied();
         clearActiveCards();
         clearPotentialEarnings();
@@ -168,16 +146,8 @@ public class Table {
 
     //If player hits blackjack pay them
     public void increasePlayerChipValue() {
-        player.chipValue += getPotentialEarnings();
+        player.setChipValue(player.getChipValue() + getPotentialEarnings());
     }
-
-
-    //Decrease player cash value each time they place bet
-    public void decreasePlayerChipValue() {
-
-    }
-
-    ;
 
 
     /**
@@ -239,14 +209,15 @@ public class Table {
 
     //----------------SETTER METHODS----------------//
     public void setPotentialEarnings() {
+        if (player.blackjack) {
+            this.potentialEarnings = player.currentBet * 3;
+        }
         this.potentialEarnings = player.currentBet * 2;
     }
 
     public void addToPlayerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
-
         this.playerCards.add(newCard);
-
     }
 
     public void addToDealerCards() {
@@ -268,12 +239,12 @@ public class Table {
         return potentialEarnings;
     }
 
-    public Set<Cards> getPlayerCards() {
-        return (Set<Cards>) List.copyOf(playerCards);
+    public List<Cards> getPlayerCards() {
+        return (List<Cards>) List.copyOf(playerCards);
     }
 
-    public Set<Cards> getDealerCards() {
-        return (Set<Cards>) List.copyOf(dealerCards);
+    public List<Cards> getDealerCards() {
+        return (List<Cards>) List.copyOf(dealerCards);
     }
 
     public List<Integer> getScoreboard() {
@@ -281,6 +252,8 @@ public class Table {
     }
 
     public void dealInitialHands() {
+        playerCards = new ArrayList<>();
+        dealerCards = new ArrayList<>();
         Cards newCard1 = dealer.getNextCardFromDeck();
         Cards newCard2 = dealer.getNextCardFromDeck();
         Cards newCard3 = dealer.getNextCardFromDeck();
