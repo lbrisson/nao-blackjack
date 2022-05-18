@@ -45,6 +45,9 @@ public class BlackjackApp {
             table.dealInitialHands();
 
             blackjackCheck();
+            if (gameOver) {
+                break;
+            }
 
             // At this point blackjackCheck() has been done so neither hands are 21 or busted.
             // this phase only deals with the playerHand (hit or stand)
@@ -65,9 +68,9 @@ public class BlackjackApp {
             //      dealerHandValue is >=17 && <=21, go to next phase: comparing dealer and player hands.
             //      dealerHandValue is >21, dealer bust go to playerWinsHand().
             // it should update the scoreboard as it is receiving cards
+            System.out.println(table.getDealerCards());
             while (table.checkDealerHandValue() < 17) {
                 table.addToDealerCards();
-                System.out.println(table.getDealerCards());
             }
 
             if (table.checkDealerHandValue() > 21) {
@@ -75,9 +78,11 @@ public class BlackjackApp {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
+
             if (gameOver) {
                 break;
             }
+
             // Next phase is for comparing dealer and player hand int values
             //      if playerHandValue==DealerHandValue, tie() ending method called
             //      if else playerHandValue>DealerHandValue, playerWinsHand() ending
@@ -90,10 +95,10 @@ public class BlackjackApp {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
-            else {
-                table.playerLosesRound();
-                promptForEndGameOrContinue();
-            }
+
+            table.playerLosesRound();
+            promptForEndGameOrContinue();
+
         }
 
     }
@@ -169,6 +174,9 @@ public class BlackjackApp {
                 System.out.println("PLAYER BUST");
                 table.playerLosesRound();
                 promptForEndGameOrContinue();
+            }
+            else if (table.checkPlayerHandValue() == 21) {
+                System.out.println("You got 21!!");
             }
             else {
                 promptForHitOrStand();
