@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Dealer {
     // Attributes
     private int wins;
-    private boolean blackJack = false;
     private Deck deck;
 
     // ctor
@@ -37,16 +36,13 @@ public class Dealer {
     }
 
     public void playerLoses() {
-        System.out.println("Dealer:  You lose!");
+        System.out.println("Dealer: You lose!");
     }
 
     public void playerWins() {
         System.out.println("Dealer: You win!");
 
     }
-
-
-
 
     // getters/setters
     public int getWins() {
@@ -56,14 +52,5 @@ public class Dealer {
     public void setWins(int wins) {
         this.wins = wins;
     }
-
-    public boolean isBlackJack() {
-        return blackJack;
-    }
-
-    public void setBlackJack(boolean blackJack) {
-        this.blackJack = blackJack;
-    }
-
 
 }
