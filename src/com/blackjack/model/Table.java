@@ -34,10 +34,62 @@ public class Table {
 
     public int checkPlayerHandValue() {//WILL CALCULATE HOW TO DO ONCE CARDS CLASS IS COMPLETED
         int totalCardScore = 0;
+        int acesInHandTotal = 0;
 
-             for(Cards card : playerCards) {
-                 totalCardScore += card.getCardValue();
-             }
+        for (Cards card : playerCards) {
+            totalCardScore += card.getCardValue();
+        }
+
+        if (totalCardScore > 21) {
+            //CHECK IF/How many ACES ARE IN HAND
+            for (Cards card : playerCards) {
+                if (card.getCardName().equals(Cards.ACE.getCardName())) {
+                    acesInHandTotal++;
+                }
+            }
+        }
+
+        if (acesInHandTotal > 0) {
+            totalCardScore = 0;
+        }
+
+        if (acesInHandTotal == 1) {
+            for (Cards card : playerCards) {
+                totalCardScore += card.getCardValue();
+            }
+            totalCardScore -= 10;
+        }
+        if (acesInHandTotal == 2) {
+            for (Cards card : playerCards) {
+                totalCardScore += card.getCardValue();
+            }
+            if (playerCards.size() > 2) {
+                totalCardScore -= 20;
+            } else {
+                totalCardScore -= 10;
+            }
+        }
+        if (acesInHandTotal == 3) {
+            for (Cards card : playerCards) {
+                totalCardScore += card.getCardValue();
+            }
+            if (playerCards.size() > 3) {
+                totalCardScore -= 30;
+            } else {
+                totalCardScore -= 20;
+            }
+        }
+
+        if (acesInHandTotal == 4) {
+            for (Cards card : playerCards) {
+                totalCardScore += card.getCardValue();
+            }
+            if (playerCards.size() > 4) {
+                totalCardScore -= 40;
+            } else {
+                totalCardScore -= 30;
+            }
+        }
 
         return totalCardScore;
     }
@@ -45,7 +97,7 @@ public class Table {
     public int checkDealerHandValue() {//WILL CALCULATE HOW TO DO ONCE CARDS CLASS IS COMPLETED
         int totalCardScore = 0;
 
-        for(Cards card : dealerCards) {
+        for (Cards card : dealerCards) {
             totalCardScore += card.getCardValue();
         }
 
@@ -54,6 +106,10 @@ public class Table {
 
     public void playerHits() {
         addToPlayerCards();
+    }
+
+    public void playerStands() {
+        addToDealerCards();
     }
 
     /**
@@ -118,7 +174,7 @@ public class Table {
      */
     public void playerWinsRound() {
         playerScore += 1;
-        //updateScoreBoard(); //function not completed yet
+        updateScoreBoard();
         increasePlayerChipValue();
         dealer.playerWins();
         clearActiveCards();
@@ -126,6 +182,7 @@ public class Table {
     }
 
     public void playerTied() {
+        player.setChipValue(player.getChipValue() + player.currentBet);
         updateScoreBoard();
         dealer.playerTied();
         clearActiveCards();
@@ -134,8 +191,8 @@ public class Table {
 
     //Empty currentActiveCards List
     public void clearActiveCards() {
-          playerCards.clear();
-          dealerCards.clear();
+        playerCards.clear();
+        dealerCards.clear();
     }
 
 
@@ -147,6 +204,21 @@ public class Table {
     //If player hits blackjack pay them
     public void increasePlayerChipValue() {
         player.setChipValue(player.getChipValue() + getPotentialEarnings());
+    }
+
+    public void dealInitialHands() {
+        playerCards = new ArrayList<>();
+        dealerCards = new ArrayList<>();
+        Cards newCard1 = dealer.getNextCardFromDeck();
+        Cards newCard2 = dealer.getNextCardFromDeck();
+        Cards newCard3 = dealer.getNextCardFromDeck();
+        Cards newCard4 = dealer.getNextCardFromDeck();
+
+        this.playerCards.add(newCard1);
+        this.playerCards.add(newCard2);
+
+        this.dealerCards.add(newCard3);
+        this.dealerCards.add(newCard4);
     }
 
 
@@ -211,8 +283,9 @@ public class Table {
     public void setPotentialEarnings() {
         if (player.blackjack) {
             this.potentialEarnings = player.currentBet * 3;
+        } else {
+            this.potentialEarnings = player.currentBet * 2;
         }
-        this.potentialEarnings = player.currentBet * 2;
     }
 
     public void addToPlayerCards() {
@@ -251,20 +324,5 @@ public class Table {
 
     public List<Integer> getScoreboard() {
         return List.copyOf(scoreboard.values());
-    }
-
-    public void dealInitialHands() {
-        playerCards = new ArrayList<>();
-        dealerCards = new ArrayList<>();
-        Cards newCard1 = dealer.getNextCardFromDeck();
-        Cards newCard2 = dealer.getNextCardFromDeck();
-        Cards newCard3 = dealer.getNextCardFromDeck();
-        Cards newCard4 = dealer.getNextCardFromDeck();
-
-        this.playerCards.add(newCard1);
-        this.playerCards.add(newCard2);
-
-        this.dealerCards.add(newCard3);
-        this.dealerCards.add(newCard4);
     }
 }

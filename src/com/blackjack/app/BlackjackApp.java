@@ -6,6 +6,7 @@ import com.blackjack.model.Deck;
 import com.blackjack.model.Player;
 import com.blackjack.model.Table;
 import com.blackjack.view.TableView;
+
 import java.util.Scanner;
 
 /*
@@ -38,13 +39,10 @@ public class BlackjackApp {
         while (!gameOver) {
             table.increaseRoundCounter();
             dealer.getDeck();
-
             promptForBetAmount();
-
-            table.setPotentialEarnings();
             table.dealInitialHands();
-
             blackjackCheck();
+
             if (gameOver) {
                 break;
             }
@@ -87,11 +85,10 @@ public class BlackjackApp {
             //      if playerHandValue==DealerHandValue, tie() ending method called
             //      if else playerHandValue>DealerHandValue, playerWinsHand() ending
             //      else, playerLosesHand() since it is the only option left.
-            if (table.checkPlayerHandValue() == table.checkDealerHandValue()){
+            if (table.checkPlayerHandValue() == table.checkDealerHandValue()) {
                 table.playerTied();
                 promptForEndGameOrContinue();
-            }
-            else if(table.checkPlayerHandValue() > table.checkDealerHandValue()) {
+            } else if (table.checkPlayerHandValue() > table.checkDealerHandValue()) {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
@@ -118,14 +115,12 @@ public class BlackjackApp {
 
     private void promptForPlayBlackJackOrNot() {
         String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game: ");
-        if(redealOrEndGame.trim().toLowerCase().equals("y")) {
+        if (redealOrEndGame.trim().toLowerCase().equals("y")) {
             System.out.println("let's continue");
-        }
-        else if(redealOrEndGame.trim().toLowerCase().equals("n")) {
+        } else if (redealOrEndGame.trim().toLowerCase().equals("n")) {
             gameOver = true;
             showNoGamesPlayedResults();
-        }
-        else {
+        } else {
             System.out.println("ERROR: Not a valid answer.");
             promptForPlayBlackJackOrNot();
         }
@@ -139,8 +134,7 @@ public class BlackjackApp {
         if (convertedBet < 5 || convertedBet > chips) {
             System.out.println("ERROR: you did not enter a number in the valid range 5 to " + chips);
             promptForBetAmount();
-        }
-        else {
+        } else {
             System.out.println("You have bet: " + convertedBet + " chip(s)");
             player.placeBet(convertedBet);
         }
@@ -170,22 +164,19 @@ public class BlackjackApp {
         String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND: ");
         if (hitOrStand.trim().toLowerCase().equals("h")) {
             table.playerHits();
-            if (table.checkPlayerHandValue() > 21 ) {
+            if (table.checkPlayerHandValue() > 21) {
                 System.out.println("PLAYER BUST");
                 table.playerLosesRound();
                 promptForEndGameOrContinue();
-            }
-            else if (table.checkPlayerHandValue() == 21) {
+            } else if (table.checkPlayerHandValue() == 21) {
                 System.out.println("You got 21!!");
-            }
-            else {
+            } else {
                 promptForHitOrStand();
             }
-        }
-        else if (hitOrStand.trim().toLowerCase().equals("s")){
+        } else if (hitOrStand.trim().toLowerCase().equals("s")) {
             System.out.println("continuing to dealer");
-        }
-        else {
+            // table.playerStands();
+        } else {
             System.out.println("ERROR: Please enter a valid response.");
             promptForHitOrStand();
         }
@@ -200,12 +191,10 @@ public class BlackjackApp {
         if (redealOrEndGame.trim().toLowerCase().equals("n")) {
             setGameOver(true);
             showEndOfGameResults();
-        }
-        else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
+        } else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
             System.out.println("Let's start the next hand!");
             start();
-        }
-        else {
+        } else {
             System.out.println("ERROR: please enter a valid response");
             promptForEndGameOrContinue();
         }
