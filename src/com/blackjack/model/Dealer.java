@@ -32,7 +32,7 @@ public class Dealer {
     }
 
     public void playerTied() {
-        System.out.println("PUSH");
+        System.out.println("Dealer: PUSH!");
     }
 
     public void playerLoses() {
