@@ -1,6 +1,5 @@
 package com.blackjack.model;
 
-
 public enum Cards {
     ACE("Ace", 11),
     TWO("Two", 2),

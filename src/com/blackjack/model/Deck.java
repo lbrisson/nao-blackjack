@@ -12,14 +12,13 @@ public class Deck {
     public void createDeck() {
         Cards cards[] = Cards.values();
         int counter = 1;
-        while (counter <= 4) {
+        while(counter <= 4) {
 
-            for (Cards card : cards) {
+            for(Cards card : cards) {
                 deck.add(card);
             }
             counter++;
         }
-
     }
 
     public void shuffleDeck() {

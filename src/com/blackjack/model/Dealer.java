@@ -1,6 +1,5 @@
 package com.blackjack.model;
 
-import java.util.Scanner;
 
 public class Dealer {
     // Attributes
@@ -13,7 +12,6 @@ public class Dealer {
     }
 
     //BUSINESS METHODS
-
     public Deck getDeck() {
         Deck deck = new Deck();
         deck.createDeck();
@@ -44,7 +42,6 @@ public class Dealer {
 
     }
 
-    // getters/setters
     public int getWins() {
         return wins;
     }
