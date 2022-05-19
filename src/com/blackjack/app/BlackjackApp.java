@@ -8,6 +8,9 @@ import com.blackjack.model.Player;
 import com.blackjack.model.Table;
 import com.blackjack.view.TableView;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 /*
@@ -81,9 +84,6 @@ public class BlackjackApp {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
-
-            System.out.println(table.checkPlayerHandValue());
-            System.out.println(table.checkDealerHandValue());
 
             if (gameOver) {
                 break;
@@ -215,16 +215,23 @@ public class BlackjackApp {
     private void promptForEndGameOrContinue() {
         //clear or reset appropriate variables
         //prompt for redeal, or end game
-        String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game: ");
-        if (redealOrEndGame.trim().toLowerCase().equals("n")) {
+        if (player.getChipValue() < 5) {
             setGameOver(true);
+            System.out.println("YOU ARE OUT OF CHIPS, GAME OVER.");
             showEndOfGameResults();
-        } else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
-            System.out.println("\n\nLet's start the next hand!");
-            start();
-        } else {
-            System.out.println("ERROR: please enter a valid response");
-            promptForEndGameOrContinue();
+        }
+        else {
+            String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game: ");
+            if (redealOrEndGame.trim().toLowerCase().equals("n")) {
+                setGameOver(true);
+                showEndOfGameResults();
+            } else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
+                System.out.println("\n\nLet's start the next hand!");
+                start();
+            } else {
+                System.out.println("ERROR: please enter a valid response");
+                promptForEndGameOrContinue();
+            }
         }
         System.out.println("BYE");
     }
@@ -243,8 +250,17 @@ public class BlackjackApp {
     //Maybe Make different Shows that are more specific
 
     private void welcome() {
+        String banner = null;
+        if(Files.exists(Path.of("resources/blackjacktest.txt"))) {
+            try {
+                banner = Files.readString(Path.of("resources/blackjacktest.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(banner);
         System.out.println("\n");
-        System.out.println("Welcome to Black Jack!");
+        System.out.println("Thanks for playing Nao Blackjack!");
         System.out.println("\n");
     }
 
