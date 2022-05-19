@@ -1,5 +1,6 @@
 package com.blackjack.app;
 
+import com.apps.util.Console;
 import com.apps.util.Prompter;
 import com.blackjack.model.Dealer;
 import com.blackjack.model.Deck;
@@ -30,17 +31,21 @@ public class BlackjackApp {
         dealer = new Dealer();
         table = new Table(player, dealer);
         //prompt player to see if they want to play BlackJack
-        promptForPlayBlackJackOrNot();
-        start();
+        promptForStart();
     }
 
     public void start() {
 //        showTable();
+
         while (!gameOver) {
             table.increaseRoundCounter();
             dealer.getDeck();
             promptForBetAmount();
+            table.setPotentialEarnings();
             table.dealInitialHands();
+            System.out.println("\nDealer face-up card: [" + table.getDealerCards().get(0) + "]");
+            System.out.println("Player hand: " + table.getPlayerCards() + "  hand score: " + table.checkPlayerHandValue() + "\n");
+
             blackjackCheck();
 
             if (gameOver) {
@@ -66,7 +71,7 @@ public class BlackjackApp {
             //      dealerHandValue is >=17 && <=21, go to next phase: comparing dealer and player hands.
             //      dealerHandValue is >21, dealer bust go to playerWinsHand().
             // it should update the scoreboard as it is receiving cards
-            System.out.println(table.getDealerCards());
+            System.out.println("Dealer's hand: " + table.getDealerCards()+ "  hand score: " + table.checkDealerHandValue());
             while (table.checkDealerHandValue() < 17) {
                 table.addToDealerCards();
             }
@@ -76,6 +81,9 @@ public class BlackjackApp {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
+
+            System.out.println(table.checkPlayerHandValue());
+            System.out.println(table.checkDealerHandValue());
 
             if (gameOver) {
                 break;
@@ -88,9 +96,14 @@ public class BlackjackApp {
             if (table.checkPlayerHandValue() == table.checkDealerHandValue()) {
                 table.playerTied();
                 promptForEndGameOrContinue();
-            } else if (table.checkPlayerHandValue() > table.checkDealerHandValue()) {
+            }
+            else if (table.checkPlayerHandValue() > table.checkDealerHandValue()) {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
+            }
+
+            if (gameOver) {
+                break;
             }
 
             table.playerLosesRound();
@@ -107,6 +120,20 @@ public class BlackjackApp {
         return playerName;
     }
 
+    private void promptForStart() {
+        String start = prompter.prompt("Would you like to play a game of blackjack? [Y]es or [N]o: ");
+        if (start.trim().toLowerCase().equals("n")) {
+            setGameOver(true);
+            showNoGamesPlayedResults();
+        } else if (start.trim().toLowerCase().equals("y")) {
+            System.out.println("WOOHOO let's START\n");
+            start();
+        } else {
+            System.out.println("ERROR: please enter a valid response");
+            promptForStart();
+        }
+    }
+
 
     private void showNoGamesPlayedResults() {
         System.out.println("HAVE A GOOD DAY WITHOUT BLACKJACK");
@@ -116,7 +143,7 @@ public class BlackjackApp {
     private void promptForPlayBlackJackOrNot() {
         String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game: ");
         if (redealOrEndGame.trim().toLowerCase().equals("y")) {
-            System.out.println("let's continue");
+            System.out.println("\nlet's continue");
         } else if (redealOrEndGame.trim().toLowerCase().equals("n")) {
             gameOver = true;
             showNoGamesPlayedResults();
@@ -135,21 +162,25 @@ public class BlackjackApp {
             System.out.println("ERROR: you did not enter a number in the valid range 5 to " + chips);
             promptForBetAmount();
         } else {
-            System.out.println("You have bet: " + convertedBet + " chip(s)");
             player.placeBet(convertedBet);
+            System.out.println("You have bet: " + convertedBet + " chips.");
         }
     }
 
     private void blackjackCheck() {
         // check for dealer blackjack
         if (table.checkDealerHandValue() == 21) {
+            System.out.println("Dealer has blackjack.");
             if (table.checkPlayerHandValue() == 21) {
+                System.out.println("You also have blackjack.");
                 table.playerTied();
             } else {
+                System.out.println("You do not have blackjack.");
                 table.playerLosesRound();
             }
             promptForEndGameOrContinue();
         } else if (table.checkPlayerHandValue() == 21) {
+            System.out.println("YOU GOT BLACKJACK!!!");
             player.setBlackjack(true);
             table.setPotentialEarnings();
             table.playerWinsRound();
@@ -160,7 +191,6 @@ public class BlackjackApp {
 
 
     private void promptForHitOrStand() {
-        System.out.println(table.getPlayerCards());
         String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND: ");
         if (hitOrStand.trim().toLowerCase().equals("h")) {
             table.playerHits();
@@ -174,7 +204,7 @@ public class BlackjackApp {
                 promptForHitOrStand();
             }
         } else if (hitOrStand.trim().toLowerCase().equals("s")) {
-            System.out.println("continuing to dealer");
+            System.out.println("\ncontinuing to dealer...");
             // table.playerStands();
         } else {
             System.out.println("ERROR: Please enter a valid response.");
@@ -185,14 +215,12 @@ public class BlackjackApp {
     private void promptForEndGameOrContinue() {
         //clear or reset appropriate variables
         //prompt for redeal, or end game
-        table.clearActiveCards();
-        table.clearPotentialEarnings();
         String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game: ");
         if (redealOrEndGame.trim().toLowerCase().equals("n")) {
             setGameOver(true);
             showEndOfGameResults();
         } else if (redealOrEndGame.trim().toLowerCase().equals("y")) {
-            System.out.println("Let's start the next hand!");
+            System.out.println("\n\nLet's start the next hand!");
             start();
         } else {
             System.out.println("ERROR: please enter a valid response");

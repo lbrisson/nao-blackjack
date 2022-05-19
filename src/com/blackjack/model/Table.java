@@ -153,8 +153,10 @@ public class Table {
      */
     public void playerLosesRound() {
         dealerScore += 1;
-        updateScoreBoard();
+//        updateScoreBoard();
         dealer.playerLoses();
+        System.out.println("Lose amount: " + player.currentBet + " chips");
+        player.currentBet = 0;
         clearActiveCards();
         clearPotentialEarnings();
     }
@@ -174,17 +176,20 @@ public class Table {
      */
     public void playerWinsRound() {
         playerScore += 1;
-        updateScoreBoard();
+//        updateScoreBoard();
         increasePlayerChipValue();
         dealer.playerWins();
+        System.out.println("Win amount: " + getPotentialEarnings() + " chips");
+        player.currentBet = 0;
         clearActiveCards();
         clearPotentialEarnings();
     }
 
     public void playerTied() {
         player.setChipValue(player.getChipValue() + player.currentBet);
-        updateScoreBoard();
+//        updateScoreBoard();
         dealer.playerTied();
+        player.currentBet = 0;
         clearActiveCards();
         clearPotentialEarnings();
     }
@@ -291,13 +296,13 @@ public class Table {
     public void addToPlayerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.playerCards.add(newCard);
-        System.out.println(getPlayerCards());
+        System.out.println("Player hand: " + getPlayerCards() + "  hand score: " + checkPlayerHandValue());
     }
 
     public void addToDealerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.dealerCards.add(newCard);
-        System.out.println(getDealerCards());
+        System.out.println("Dealer hand: " +getDealerCards() + "  hand score: " + checkDealerHandValue());
     }
 
     public void increaseRoundCounter() {
