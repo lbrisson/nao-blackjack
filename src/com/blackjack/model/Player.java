@@ -17,7 +17,7 @@ public class Player {
 
     // business methods
     public void placeBet(int playerBet) {
-        currentBet = playerBet;
+        this.currentBet = playerBet;
         setChipValue(getChipValue() - playerBet);
     }
 
