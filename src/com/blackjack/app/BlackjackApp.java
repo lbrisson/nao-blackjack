@@ -33,15 +33,12 @@ public class BlackjackApp {
         player = new Player(playerName);
         dealer = new Dealer();
         table = new Table(player, dealer);
-        //prompt player to see if they want to play BlackJack
         promptForStart();
     }
 
     public void start() {
-//        showTable();
 
         while (!gameOver) {
-            table.increaseRoundCounter();
             dealer.getDeck();
             promptForBetAmount();
             table.setPotentialEarnings();
@@ -55,26 +52,12 @@ public class BlackjackApp {
                 break;
             }
 
-            // At this point blackjackCheck() has been done so neither hands are 21 or busted.
-            // this phase only deals with the playerHand (hit or stand)
-            // prompt player to hit or stand, since the first two cards will never result in bust, you can always ask hit or stand here
-            // if else for player response, hit or stand.
-            // if hit, add one card to playerHand and getHandValue,
-            //      if >21 call playerLosesHand(), if less restart phase.
-            // if stand, it goes to the next phase.
             promptForHitOrStand();
             if (gameOver) {
                 break;
             }
 
-            // Next phase is dealing with the dealerHand
-            // this part is automatic, we don't need prompts
-            // Three outcomes:
-            //      dealerHandValue is <17, add card to dealerHand and restart phase
-            //      dealerHandValue is >=17 && <=21, go to next phase: comparing dealer and player hands.
-            //      dealerHandValue is >21, dealer bust go to playerWinsHand().
-            // it should update the scoreboard as it is receiving cards
-            System.out.println("Dealer's hand: " + table.getDealerCards()+ "  hand score: " + table.checkDealerHandValue());
+            System.out.println("Dealer's hand: " + table.getDealerCards() + "  hand score: " + table.checkDealerHandValue());
             while (table.checkDealerHandValue() < 17) {
                 table.addToDealerCards();
             }
@@ -89,15 +72,10 @@ public class BlackjackApp {
                 break;
             }
 
-            // Next phase is for comparing dealer and player hand int values
-            //      if playerHandValue==DealerHandValue, tie() ending method called
-            //      if else playerHandValue>DealerHandValue, playerWinsHand() ending
-            //      else, playerLosesHand() since it is the only option left.
             if (table.checkPlayerHandValue() == table.checkDealerHandValue()) {
                 table.playerTied();
                 promptForEndGameOrContinue();
-            }
-            else if (table.checkPlayerHandValue() > table.checkDealerHandValue()) {
+            } else if (table.checkPlayerHandValue() > table.checkDealerHandValue()) {
                 table.playerWinsRound();
                 promptForEndGameOrContinue();
             }
@@ -108,15 +86,13 @@ public class BlackjackApp {
 
             table.playerLosesRound();
             promptForEndGameOrContinue();
-
         }
 
     }
 
-
     private String promptForPlayerName() {
         String playerName = prompter.prompt("Please enter your name: ");
-        System.out.println("Your name is: " + playerName);
+        System.out.println("Thanks " + playerName + "!");
         return playerName;
     }
 
@@ -134,25 +110,10 @@ public class BlackjackApp {
         }
     }
 
-
     private void showNoGamesPlayedResults() {
         System.out.println("HAVE A GOOD DAY WITHOUT BLACKJACK");
-
+        System.out.println("NO GAMES WERE PLAYED");
     }
-
-    private void promptForPlayBlackJackOrNot() {
-        String redealOrEndGame = prompter.prompt("Enter (Y)es to continue playing or (N)o to end the Game: ");
-        if (redealOrEndGame.trim().toLowerCase().equals("y")) {
-            System.out.println("\nlet's continue");
-        } else if (redealOrEndGame.trim().toLowerCase().equals("n")) {
-            gameOver = true;
-            showNoGamesPlayedResults();
-        } else {
-            System.out.println("ERROR: Not a valid answer.");
-            promptForPlayBlackJackOrNot();
-        }
-    }
-
 
     private void promptForBetAmount() {
         int chips = player.getChipValue();
@@ -168,7 +129,6 @@ public class BlackjackApp {
     }
 
     private void blackjackCheck() {
-        // check for dealer blackjack
         if (table.checkDealerHandValue() == 21) {
             System.out.println("Dealer has blackjack.");
             if (table.checkPlayerHandValue() == 21) {
@@ -186,9 +146,7 @@ public class BlackjackApp {
             table.playerWinsRound();
             promptForEndGameOrContinue();
         }
-
     }
-
 
     private void promptForHitOrStand() {
         String hitOrStand = prompter.prompt("Enter [h] to HIT or [s] to STAND: ");
@@ -205,7 +163,6 @@ public class BlackjackApp {
             }
         } else if (hitOrStand.trim().toLowerCase().equals("s")) {
             System.out.println("\ncontinuing to dealer...");
-            // table.playerStands();
         } else {
             System.out.println("ERROR: Please enter a valid response.");
             promptForHitOrStand();
@@ -213,14 +170,11 @@ public class BlackjackApp {
     }
 
     private void promptForEndGameOrContinue() {
-        //clear or reset appropriate variables
-        //prompt for redeal, or end game
         if (player.getChipValue() < 5) {
             setGameOver(true);
             System.out.println("YOU ARE OUT OF CHIPS, GAME OVER.");
             showEndOfGameResults();
-        }
-        else {
+        } else {
             String redealOrEndGame = prompter.prompt("Enter [y]es to continue playing or [n]o to end the Game: ");
             if (redealOrEndGame.trim().toLowerCase().equals("n")) {
                 setGameOver(true);
@@ -233,25 +187,20 @@ public class BlackjackApp {
                 promptForEndGameOrContinue();
             }
         }
-        System.out.println("BYE");
     }
-
 
     private void showEndOfGameResults() {
-        System.out.println("END OF GAME RESULTS HERE");
+        showTable();
     }
 
-
     private void showTable() {
-        TableView view = new TableView(table.getScoreboard());
+        TableView view = new TableView(table.getScoreboard(), player.getChipValue());
         view.render();
     }
 
-    //Maybe Make different Shows that are more specific
-
     private void welcome() {
         String banner = null;
-        if(Files.exists(Path.of("resources/blackjacktest.txt"))) {
+        if (Files.exists(Path.of("resources/blackjacktest.txt"))) {
             try {
                 banner = Files.readString(Path.of("resources/blackjacktest.txt"));
             } catch (IOException e) {
@@ -263,9 +212,6 @@ public class BlackjackApp {
         System.out.println("Thanks for playing Nao Blackjack!");
         System.out.println("\n");
     }
-
-    //ACCESSOR METHODS
-
 
     public Boolean getGameOver() {
         return gameOver;

@@ -10,7 +10,6 @@ public class Player {
     boolean blackjack = false;
 
     // ctor
-
     public Player(String name) {
         this.name = name;
     }
