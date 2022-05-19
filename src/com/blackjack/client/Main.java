@@ -12,6 +12,5 @@ class Main implements SplashApp {
 
     @Override
     public void start() {
-
     }
 }

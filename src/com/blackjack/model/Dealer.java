@@ -31,14 +31,17 @@ public class Dealer {
 
     public void playerTied() {
         System.out.println("Dealer: PUSH!");
+        System.out.println();
     }
 
     public void playerLoses() {
         System.out.println("Dealer: You lose!");
+        System.out.println();
     }
 
     public void playerWins() {
         System.out.println("Dealer: You win!");
+        System.out.println();
 
     }
 

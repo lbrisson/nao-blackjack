@@ -21,7 +21,6 @@ public class Table {
     }
 
     //------------------BUSINESS METHODS------------------//
-
     public void dealInitialHands() {
         playerCards = new ArrayList<>();
         dealerCards = new ArrayList<>();
@@ -104,9 +103,7 @@ public class Table {
 
         for (Cards card : dealerCards) {
             totalCardScore += card.getCardValue();
-            System.out.println(card.getCardName() + " : " + card.getCardValue());
         }
-        System.out.println("Init Val :" + totalCardScore);
 
         if (totalCardScore > 21) {
             for (Cards card : dealerCards) {
@@ -125,7 +122,6 @@ public class Table {
                 totalCardScore += card.getCardValue();
             }
             totalCardScore -= 10;
-            System.out.println("1 ACE Val :" + totalCardScore);
         }
         if (acesInHandTotal == 2) {
             for (Cards card : dealerCards) {
@@ -136,7 +132,6 @@ public class Table {
             } else {
                 totalCardScore -= 10;
             }
-            System.out.println("2 ACE Val :" + totalCardScore);
         }
         if (acesInHandTotal == 3) {
             for (Cards card : dealerCards) {
@@ -147,9 +142,7 @@ public class Table {
             } else {
                 totalCardScore -= 20;
             }
-            System.out.println("3 ACE Val :" + totalCardScore);
         }
-
         if (acesInHandTotal == 4) {
             for (Cards card : dealerCards) {
                 totalCardScore += card.getCardValue();
@@ -159,21 +152,19 @@ public class Table {
             } else {
                 totalCardScore -= 30;
             }
-            System.out.println("4 ACE Val :" + totalCardScore);
         }
 
         return totalCardScore;
     }
 
-
     public void playerHits() {
         addToPlayerCards();
     }
 
-
     public void playerLosesRound() {
         dealerScore += 1;
         updateScoreBoard();
+        System.out.println("Player's hand: " +getPlayerCards() + ", Hand Score: " +checkPlayerHandValue());
         dealer.playerLoses();
         clearActiveCards();
         clearPotentialEarnings();
@@ -182,6 +173,7 @@ public class Table {
     public void playerWinsRound() {
         playerScore += 1;
         updateScoreBoard();
+        System.out.println("Player's hand: " +getPlayerCards() + ", Hand Score: " +checkPlayerHandValue());
         increasePlayerChipValue();
         dealer.playerWins();
         clearActiveCards();
@@ -191,6 +183,7 @@ public class Table {
     public void playerTied() {
         player.setChipValue(player.getChipValue() + player.currentBet);
         updateScoreBoard();
+        System.out.println("Player's hand: " +getPlayerCards() + ", Hand Score: " +checkPlayerHandValue());
         dealer.playerTied();
         clearActiveCards();
         clearPotentialEarnings();
@@ -232,7 +225,6 @@ public class Table {
         potentialEarnings = 0;
     }
 
-
     //----------------SETTER METHODS----------------//
     public void setPotentialEarnings() {
         if (player.blackjack) {
@@ -245,15 +237,15 @@ public class Table {
     public void addToPlayerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.playerCards.add(newCard);
-        System.out.println(getPlayerCards());
+        System.out.println("Player's hand: " +getPlayerCards() + ", Hand Score: " +checkPlayerHandValue());
+        System.out.println();
     }
 
     public void addToDealerCards() {
         Cards newCard = dealer.getNextCardFromDeck();
         this.dealerCards.add(newCard);
-        System.out.println(getDealerCards());
+        System.out.println("Dealer's hand: " +getDealerCards() + ", Hand Score: " +checkDealerHandValue());
     }
-
 
     //----------------GETTER METHODS----------------//
     public int getPotentialEarnings() {

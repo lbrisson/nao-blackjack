@@ -163,6 +163,7 @@ public class BlackjackApp {
             }
         } else if (hitOrStand.trim().toLowerCase().equals("s")) {
             System.out.println("\ncontinuing to dealer...");
+            System.out.println();
         } else {
             System.out.println("ERROR: Please enter a valid response.");
             promptForHitOrStand();
